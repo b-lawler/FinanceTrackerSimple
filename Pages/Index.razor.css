@@ -1,0 +1,16 @@
+﻿tfoot tr {
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.account-value{
+    font-size:1em;
+}
+
+.positive-value {
+    color: green;
+}
+
+.negative-value {
+    color: red;
+}

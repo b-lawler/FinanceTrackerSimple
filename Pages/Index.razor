@@ -1,0 +1,47 @@
+﻿@page "/"
+@using FinanceTrackerSimple.Data
+@using FinanceTrackerSimple.Data.IRepositories
+@inject IAccountRepository accountRepository
+
+@if(Accounts != null) {
+
+    <h2>Accounts</h2>
+
+
+    <a href="AddAccount" class="btn btn-info float-right mb-2">+ Add Account</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Current Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(Account account in Accounts.Where(a => a.Values.Count > 0)) {
+                <tr>
+                    <td><a href="/Account/@account.Id">@account.Name</a></td>
+                    <td class="account-value @(account.CurrentValue.Value > 0 ? "positive-value" : "negative-value" )">@account.CurrentValue.FormattedValue <small>(@account.CurrentValue.CreateDate.ToShortDateString())</small></td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="table-info">
+                <td>Total</td>
+                <td>@Accounts.Where(a => a.Values.Count > 0).Sum(a => a.Values.Last().Value).ToString("C")</td>
+            </tr>
+        </tfoot>
+    </table>
+
+} else {
+    <h5>Loading...</h5>
+}
+
+@code{
+    public List<Account> Accounts { get; set; }
+
+    protected override void OnInitialized() {
+        Accounts = accountRepository.GetActiveAccounts();
+    }
+
+}
