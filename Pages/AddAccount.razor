@@ -46,6 +46,7 @@
         if(!newAccount.Link.Contains("https:") && !newAccount.Link.Contains("http:")) {
             newAccount.Link = "https://" + newAccount.Link;
         }
+        newAccount.Link = newAccount.Link.ToLower();
         newAccount.Values.Add(newAccountValue);
         loading = true;
         await Task.Delay(1);
