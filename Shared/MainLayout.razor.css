@@ -68,3 +68,9 @@
         padding-right: 1.5rem !important;
     }
 }
+
+@media(max-width:640px) {
+    .top-row {
+        display: none !important;
+    }
+}

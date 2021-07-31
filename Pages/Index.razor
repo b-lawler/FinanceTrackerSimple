@@ -24,8 +24,13 @@
         <tbody>
             @foreach(Account account in Accounts.Where(a => a.Values.Count > 0)) {
                 <tr>
-                    <td><a href="/Account/@account.Id">@account.Name</a></td>
-                    <td class="account-value @(account.CurrentValue.Value > 0 ? "positive-value" : "negative-value" )">@account.CurrentValue.FormattedValue <small>(@account.CurrentValue.CreateDate.ToShortDateString())</small></td>
+                    <td class="account-name"><a href="/Account/@account.Id">@account.Name</a></td>
+                    <td class="account-value @(account.CurrentValue.Value > 0 ? "positive-value" : "negative-value" )">
+                        <div>
+                            @account.CurrentValue.FormattedValue
+                        </div>
+                        <small class="text-muted date-added">(@account.CurrentValue.CreateDate.ToShortDateString())</small>
+                    </td>
                 </tr>
             }
         </tbody>

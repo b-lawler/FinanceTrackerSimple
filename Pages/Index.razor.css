@@ -3,8 +3,18 @@
     font-size: 1.3em;
 }
 
+.account-name{
+    font-size: 1.15em;
+    padding: 1em;
+}
+
 .account-value{
     font-size:1em;
+}
+
+.date-added{
+    position:absolute;
+    margin-top: -3px;
 }
 
 .positive-value {

@@ -18,6 +18,12 @@
     top: -2px;
 }
 
+#logoutButton{
+    width:100%;
+    padding:unset;
+    font-size: 0.9rem;
+}
+
 .nav-item {
     font-size: 0.9rem;
     padding-bottom: 0.5rem;
