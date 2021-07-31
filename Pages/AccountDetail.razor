@@ -6,8 +6,9 @@
 
 @if(DetailAccount != null) {
     <div class="row">
-        <div class="col col-md-12">
+        <div class="col-12">
             <h3 id="accountName" class="text-info">@(EditMode ? "Update" : "") @DetailAccount.Name</h3>
+            <button id="editAccountBtn" @onclick="EditClick" class="btn btn-sm btn-secondary mx-3">Edit</button>
         </div>
     </div>
     @if(EditMode) {
@@ -30,8 +31,6 @@
             </div>
         </EditForm>
     } else {
-        <button @onclick="EditClick" class="btn btn-sm btn-secondary float-right">Edit Details</button>
-
         <div class="row">
             <div class="col-sm">
                 <a class="text-muted" target="_blank" href="@DetailAccount.Link">@DetailAccount.Link</a>
@@ -54,11 +53,11 @@
 
         <div class="mt-5">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-6">
                     <h4>Historical Values</h4>
                 </div>
-                <div class="col-sm-6">
-                    <button class="btn btn-outline-primary float-right mb-2" @onclick="(() => AddingValue = true)">+ Add Value</button>
+                <div class="col-6">
+                    <button class="btn btn-outline-primary float-right mb-3" @onclick="(() => AddingValue = true)">+ Add Value</button>
                 </div>
             </div>
             @if(DetailAccount.Values.Count > 0) {

@@ -23,6 +23,7 @@
                 <InputNumber id="accountValue" class="form-control" @bind-Value="@newAccountValue.Value"></InputNumber>
             </div>
             <button class="btn btn-primary mt-3">Add Account</button>
+            <a href="/" class="btn btn-danger mt-3">Cancel</a>
         </EditForm>
         @if(newAccount.Id > 0) {
             <h3 style="color:green;">Success</h3>
