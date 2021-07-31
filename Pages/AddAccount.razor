@@ -43,10 +43,13 @@
     bool loading = false;
 
     public async Task AddNewAccount() {
+        if(!newAccount.Link.Contains("https:") && !newAccount.Link.Contains("http:")) {
+            newAccount.Link = "https://" + newAccount.Link;
+        }
         newAccount.Values.Add(newAccountValue);
         loading = true;
         await Task.Delay(1);
-        System.Threading.Thread.Sleep(750);
+        System.Threading.Thread.Sleep(400);
         bool newAccountInsertSuccess = await accountService.InsertAccount(newAccount);
 
 
@@ -54,7 +57,7 @@
         await Task.Delay(1);
         StateHasChanged();
         if(newAccountInsertSuccess) {
-            await Task.Delay(1500);
+            await Task.Delay(750);
             navigationManager.NavigateTo("/");
         }
     }
