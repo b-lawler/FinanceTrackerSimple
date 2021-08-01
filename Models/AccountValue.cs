@@ -17,6 +17,7 @@ namespace FinanceTrackerSimple.Data {
         }
 
         public AccountValue() {
+            Active = true;
             CreateDate = DateTime.UtcNow;
         }
     }

@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="row mt-3">
-                <div class="col-6">
+                <div class="col-12">
                     <button class="btn btn-primary">Save Changes</button>
                     <button @onclick="() => { EditMode = false; }" class="btn btn-secondary">Cancel</button>
                 </div>
@@ -92,7 +92,7 @@
                     </div>
                     <div class="row">
                         <div class="mb-3 col-sm-6">
-                            <button class="btn btn-success">Update</button>
+                            <button class="btn btn-success">Add Value</button>
                             <button type="button" @onclick="(() => AddingValue = false)" class="btn btn-danger">Cancel</button>
                         </div>
                     </div>
@@ -104,13 +104,15 @@
                         <tr>
                             <th>Date</th>
                             <th>Value</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(AccountValue value in CurrentAccount.Values.OrderByDescending(v => v.CreateDate)) {
+                        @foreach(AccountValue value in CurrentAccount.Values.Where(v => v.Active).OrderByDescending(v => v.CreateDate)) {
                             <tr>
                                 <td>@value.CreateDate.ToShortDateString() @value.CreateDate.ToShortTimeString()</td>
                                 <td>@value.FormattedValue</td>
+                                <td><button class="btn btn-sm btn-danger" @onclick="@(() => DeleteAccountValue(value))" >Delete</button></td>
                             </tr>
                         }
                     </tbody>
@@ -134,7 +136,7 @@
     protected async override Task OnInitializedAsync() {
         CurrentAccount = await accountRepository.GetAccount(AccountId);
         NewAccountValue.AccountId = CurrentAccount.Id;
-        NewAccountValue.Value = CurrentAccount.CurrentValue.Value;
+        NewAccountValue.Value = CurrentAccount.CurrentValue != null ? CurrentAccount.CurrentValue.Value : 0;
     }
 
     private void EditClick() {
@@ -148,7 +150,7 @@
     }
 
     private async Task AddAccountValue() {
-        bool insertSuccess = await accountValueRepository.InsertAccountValueAsync(NewAccountValue);
+        bool insertSuccess = await accountValueRepository.InsertAccountValue(NewAccountValue);
         decimal newValue = NewAccountValue.Value;
         if(insertSuccess) {
             // show toastr
@@ -156,6 +158,11 @@
             NewAccountValue.Value = newValue;
             NewAccountValue.AccountId = CurrentAccount.Id;
         }
+    }
+
+    private void DeleteAccountValue(AccountValue accountValue) {
+        bool success = accountValueRepository.DeleteAccountValue(accountValue);
+        NewAccountValue.Value = CurrentAccount.CurrentValue.Value;
     }
 
     private void DeleteAccount() {

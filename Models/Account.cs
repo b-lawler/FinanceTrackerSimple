@@ -10,7 +10,13 @@ namespace FinanceTrackerSimple.Data {
         public string Link { get; set; }
         public AccountValue CurrentValue {
             get {
-                return Values.Last();
+                if(Values.Any(v => v.Active)) {
+                    return Values.Where(v => v.Active).Last();
+                } else {
+                    return new AccountValue {
+                        Value = 0
+                    };
+                }
             }
         }
         public List<AccountValue> Values { get; set; }

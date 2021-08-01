@@ -37,7 +37,7 @@
         <tfoot>
             <tr class="table-info">
                 <td>Total</td>
-                <td>@Accounts.Where(a => a.Values.Count > 0).Sum(a => a.Values.Last().Value).ToString("C")</td>
+                <td>@Accounts.Where(a => a.Active).Sum(a => a.CurrentValue.Value).ToString("C")</td>
             </tr>
         </tfoot>
     </table>

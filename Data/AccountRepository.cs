@@ -15,6 +15,7 @@ namespace FinanceTrackerSimple.Data {
         }
 
         public async Task<bool> InsertAccount(Account account) {
+            account.Active = true;
             await _dbContext.Accounts.AddAsync(account);
             int affectedRows = await _dbContext.SaveChangesAsync();
             return affectedRows > 0;
@@ -62,7 +63,8 @@ namespace FinanceTrackerSimple.Data {
             _dbContext = dbContext;
         }
 
-        public async Task<bool> InsertAccountValueAsync(AccountValue accountValue) {
+        public async Task<bool> InsertAccountValue(AccountValue accountValue) {
+            accountValue.Active = true;
             await _dbContext.AccountValues.AddAsync(accountValue);
             await _dbContext.SaveChangesAsync();
             return true;
@@ -70,6 +72,20 @@ namespace FinanceTrackerSimple.Data {
 
         public async Task<List<AccountValue>> GetAccountValues(int accountId) {
             return await _dbContext.AccountValues.Where(a => a.AccountId == accountId).ToListAsync();
+        }
+
+        public bool DeleteAccountValue(AccountValue accountValue) {
+            AccountValue dbAccountValue = _dbContext.AccountValues.Find(accountValue.Id);
+
+            if(dbAccountValue != null) {
+                dbAccountValue.DeactivateDate = DateTime.UtcNow;
+                dbAccountValue.Active = false;
+
+                _dbContext.AccountValues.Update(dbAccountValue);
+                int rowsAffected = _dbContext.SaveChanges();
+                return rowsAffected > 0;
+            }
+            return false;
         }
     }
 }
