@@ -48,6 +48,7 @@
         }
         newAccount.Link = newAccount.Link.ToLower();
         newAccount.Values.Add(newAccountValue);
+        newAccount.Active = true;
         loading = true;
         await Task.Delay(1);
         System.Threading.Thread.Sleep(400);

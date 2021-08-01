@@ -4,59 +4,72 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FinanceTrackerSimple.Data {
     public class AccountRepository : IAccountRepository {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _dbContext;
 
-        public AccountRepository(ApplicationDbContext appDBContext) {
-            _db = appDBContext;
+        public AccountRepository(ApplicationDbContext dbContext) {
+            _dbContext = dbContext;
         }
 
         public async Task<bool> InsertAccount(Account account) {
-            await _db.Accounts.AddAsync(account);
-            int affectedRows = await _db.SaveChangesAsync();
+            await _dbContext.Accounts.AddAsync(account);
+            int affectedRows = await _dbContext.SaveChangesAsync();
             return affectedRows > 0;
         }
 
-        public List<Account> GetActiveAccounts() {
-            // add flag for active in DB
-            return _db.Accounts.Include(a => a.Values).ToList();
+        public async Task<List<Account>> GetActiveAccounts() {
+            return await _dbContext.Accounts.Include(a => a.Values).Where(a => a.Active).ToListAsync();
         }
 
         public async Task<Account> GetAccount(int id) {
-            return await _db.Accounts.Include(a => a.Values).FirstAsync(a => a.Id == id);
+            return await _dbContext.Accounts.Include(a => a.Values).FirstAsync(a => a.Id == id);
         }
 
         public async Task<Account> UpdateAccount(Account account) {
-
-            Account accountFromDB = await _db.Accounts.FindAsync(account.Id);
+            Account accountFromDB = await _dbContext.Accounts.FindAsync(account.Id);
 
             if(accountFromDB != null) {
-                var updatedAccount = _db.Accounts.Update(account);
-                await _db.SaveChangesAsync();
+                var updatedAccount = _dbContext.Accounts.Update(account);
+                await _dbContext.SaveChangesAsync();
                 return updatedAccount.Entity;
             } else {
                 return null;
             }
         }
+
+        public bool DeleteAccount(Account account) {
+            Account dbAccount = _dbContext.Accounts.Find(account.Id);
+
+            if(dbAccount != null) {
+                dbAccount.DeactivateDate = DateTime.UtcNow;
+                dbAccount.Active = false;
+
+                _dbContext.Accounts.Update(dbAccount);
+                int rowsAffected = _dbContext.SaveChanges();
+                return rowsAffected > 0;
+            }
+            return false;
+        }
     }
 
     public class AccountValueRepository : IAccountValueRepository {
-        private readonly ApplicationDbContext _appDBContext;
+        private ApplicationDbContext _dbContext;
 
-        public AccountValueRepository(ApplicationDbContext appDBContext) {
-            _appDBContext = appDBContext;
+        public AccountValueRepository(ApplicationDbContext dbContext) {
+            _dbContext = dbContext;
         }
 
         public async Task<bool> InsertAccountValueAsync(AccountValue accountValue) {
-            await _appDBContext.AccountValues.AddAsync(accountValue);
-            await _appDBContext.SaveChangesAsync();
+            await _dbContext.AccountValues.AddAsync(accountValue);
+            await _dbContext.SaveChangesAsync();
             return true;
         }
 
         public async Task<List<AccountValue>> GetAccountValues(int accountId) {
-            return await _appDBContext.AccountValues.Where(a => a.AccountId == accountId).ToListAsync();
+            return await _dbContext.AccountValues.Where(a => a.AccountId == accountId).ToListAsync();
         }
     }
 }

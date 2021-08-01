@@ -9,7 +9,7 @@ namespace FinanceTrackerSimple.Data.IRepositories {
         public Task<Account> GetAccount(int id);
 
         // Get accounts
-        public List<Account> GetActiveAccounts();
+        public Task<List<Account>> GetActiveAccounts();
 
         // Create account
         public Task<bool> InsertAccount(Account account);
@@ -18,6 +18,7 @@ namespace FinanceTrackerSimple.Data.IRepositories {
         public Task<Account> UpdateAccount(Account account);
 
         // Delete account
+        public bool DeleteAccount(Account account);
     }
 
     public interface IAccountValueRepository {
