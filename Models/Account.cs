@@ -20,6 +20,14 @@ namespace FinanceTrackerSimple.Data {
             }
         }
         public List<AccountValue> Values { get; set; }
+        public DateTime LastUpdated {
+            get {
+                if(CurrentValue != null) {
+                    return CurrentValue.CreateDate;
+                }
+                return DateTime.MinValue;
+            }
+        }
 
         public Account() {
             Values = new List<AccountValue>();

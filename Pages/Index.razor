@@ -18,7 +18,7 @@
         <thead>
             <tr>
                 <th scope="col">Name</th>
-                <th scope="col">Current Value</th>
+                <th class="clickable" @onclick="SortColumnDate" scope="col">Current Value</th>
             </tr>
         </thead>
         <tbody>
@@ -48,9 +48,20 @@
 
 @code{
     public List<Account> Accounts { get; set; }
+    public int CurrentDateSort { get; set; }
 
     protected async override Task OnInitializedAsync() {
         Accounts = await accountRepository.GetActiveAccounts();
+    }
+
+    private void SortColumnDate() {
+        if(CurrentDateSort == 1) {
+            Accounts = Accounts.OrderBy(a => a.LastUpdated).ToList();
+            CurrentDateSort = 0;
+        } else {
+            Accounts = Accounts.OrderByDescending(a => a.LastUpdated).ToList();
+            CurrentDateSort = 1;
+        }
     }
 
 }
