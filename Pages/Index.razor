@@ -2,8 +2,17 @@
 @using FinanceTrackerSimple.Data
 @using FinanceTrackerSimple.Data.IRepositories
 @inject IAccountRepository accountRepository
+@using ChartJs.Blazor.LineChart
+@using System.Collections.Generic
+
+
+<h1 class="display-6 text-center">Overview</h1>
 
 @if(Accounts != null) {
+
+    <div class="mb-5">
+        <Chart Config="_config"></Chart>
+    </div>
 
     <div class="row">
         <div class="col-6">
@@ -14,7 +23,7 @@
         </div>
     </div>
 
-    <table class="table table-striped">
+    <table class="table table-striped mb-5">
         <thead>
             <tr>
                 <th scope="col">Name</th>
@@ -49,9 +58,55 @@
 @code{
     public List<Account> Accounts { get; set; }
     public int CurrentDateSort { get; set; }
+    private LineConfig _config;
 
     protected async override Task OnInitializedAsync() {
         Accounts = await accountRepository.GetActiveAccounts();
+        _config = new LineConfig {
+            Options = new LineOptions {
+                Legend = new Legend {
+                    Display = false
+                },
+                Responsive = true,
+                Title = new OptionsTitle {
+                    Display = false
+                },
+                Tooltips = new Tooltips {
+                    Mode = InteractionMode.Nearest,
+                    Intersect = true
+                },
+                Hover = new Hover {
+                    Mode = InteractionMode.Nearest,
+                    Intersect = false,
+                },
+                Scales = new Scales {
+                    XAxes = new List<CartesianAxis>{
+                        new CategoryAxis{
+                            ScaleLabel = new ScaleLabel{
+                                LabelString = "Month"
+                            }
+                        }
+                    },
+                    YAxes = new List<CartesianAxis>{
+                        new LinearCartesianAxis{
+                            ScaleLabel = new ScaleLabel{
+                                LabelString = "Value"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        IDataset<int> dataset = new LineDataset<int>(new[] { 14, 22, 25, 11, 53 }) {
+            Label = null,
+            BackgroundColor = ColorUtil.FromDrawingColor(Color.Red),
+            BorderColor = ColorUtil.FromDrawingColor(Color.Red),
+            Fill = FillingMode.Disabled
+        };
+
+        _config.Data.Labels.AddRange(new[] { "January", "February", "March", "April", "May" });
+        _config.Data.Datasets.Add(dataset);
     }
 
     private void SortColumnDate() {

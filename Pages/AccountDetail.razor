@@ -109,7 +109,7 @@
                         @foreach(AccountValue value in CurrentAccount.Values.Where(v => v.Active).OrderByDescending(v => v.CreateDate)) {
                             <tr>
                                 <td>@value.CreateDate.ToShortDateString() @value.CreateDate.ToShortTimeString()</td>
-                                <td>@value.FormattedValue</td>
+                                <td class="@(value.Value > 0 ? "positive-value" : "negative-value")">@value.FormattedValue</td>
                                 <td><button type="button" class="btn btn-sm btn-danger" @onclick="(() => AccountValueToDelete = value)" data-toggle="modal" data-target="#deleteValueConfirmModal">Delete</button></td>
                             </tr>
                         }
@@ -177,6 +177,7 @@
             NewAccountValue.Value = newValue;
             NewAccountValue.AccountId = CurrentAccount.Id;
         }
+        AddingValue = false;
     }
 
     private void DeleteAccountValue() {

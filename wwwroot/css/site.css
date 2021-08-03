@@ -1,5 +1,5 @@
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 a, .btn-link {
@@ -32,6 +32,15 @@ a, .btn-link {
     cursor: pointer;
     text-decoration: underline;
 }
+
+.positive-value {
+    color: green;
+}
+
+.negative-value {
+    color: red;
+}
+
 
 #blazor-error-ui {
     background: lightyellow;
