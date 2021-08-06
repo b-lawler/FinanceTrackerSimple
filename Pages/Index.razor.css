@@ -16,3 +16,11 @@
     position:absolute;
     margin-top: -3px;
 }
+
+.yellow-stale {
+    background-color: rgb(255, 241, 217) !important;
+}
+
+.red-stale {
+    background-color: rgb(255, 224, 224) !important;
+}
