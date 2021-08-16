@@ -6,3 +6,7 @@
 #editAccountBtn{
     position: absolute;
 }
+
+#editAccountForm{
+    margin-top:25px;
+}
