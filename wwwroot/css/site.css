@@ -1,5 +1,6 @@
 html, body {
-    font-family: 'Roboto', sans-serif;
+    /*font-family: 'Roboto', sans-serif;*/
+    font-family: sans-serif;
 }
 
 a, .btn-link {
