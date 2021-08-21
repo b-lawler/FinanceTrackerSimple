@@ -31,6 +31,7 @@ namespace FinanceTrackerSimple {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services) {
+            services.AddLocalization();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -66,6 +67,7 @@ namespace FinanceTrackerSimple {
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseRequestLocalization("en-US");
 
             app.UseAuthentication();
             app.UseAuthorization();
