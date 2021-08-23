@@ -12,7 +12,7 @@ namespace FinanceTrackerSimple.Data {
         public decimal Value { get; set; }
         public string FormattedValue {
             get {
-                return string.Format("{0:C}", Value);
+                return string.Format("{0:C0}", Value);
             }
         }
 
