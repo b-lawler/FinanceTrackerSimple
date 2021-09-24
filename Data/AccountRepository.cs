@@ -87,5 +87,24 @@ namespace FinanceTrackerSimple.Data {
             }
             return false;
         }
+
+        public Dictionary<DateTime, decimal> GetHistoricalAccountValueSummary(int days) {
+            DateTime startDate = DateTime.UtcNow.AddDays(-days).Date;
+            Dictionary<DateTime, decimal> dailyAccountSummary = new Dictionary<DateTime, decimal>();
+
+            List<Account> activeAccounts = _dbContext.Accounts.Include(a => a.Values).Where(a => a.Active).ToList();
+            for(DateTime runningDate = DateTime.UtcNow.Date; runningDate >= startDate; runningDate = runningDate.AddDays(-1)) {
+                decimal dailyRunningAccountTotal = 0;
+                foreach(Account account in activeAccounts) {
+                    decimal currentDayAccountValue = 0;
+                    if(account.Values.Any(v => v.CreateDate <= runningDate)) {
+                        currentDayAccountValue = account.Values.Where(av => av.Active && av.CreateDate == account.Values.Where(v => v.CreateDate <= runningDate).Max(v => v.CreateDate)).First().Value;
+                    }
+                    dailyRunningAccountTotal += currentDayAccountValue;
+                }
+                dailyAccountSummary.Add(runningDate, dailyRunningAccountTotal);
+            }
+            return dailyAccountSummary;
+        }
     }
 }
