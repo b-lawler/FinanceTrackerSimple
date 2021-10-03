@@ -93,12 +93,12 @@ namespace FinanceTrackerSimple.Data {
             Dictionary<DateTime, decimal> dailyAccountSummary = new Dictionary<DateTime, decimal>();
 
             List<Account> activeAccounts = _dbContext.Accounts.Include(a => a.Values).Where(a => a.Active).ToList();
-            for(DateTime runningDate = DateTime.UtcNow.Date; runningDate >= startDate; runningDate = runningDate.AddDays(-1)) {
+            for(DateTime runningDate = DateTime.UtcNow.Date; runningDate >= startDate; runningDate = runningDate.AddDays(-1).Date) {
                 decimal dailyRunningAccountTotal = 0;
                 foreach(Account account in activeAccounts) {
                     decimal currentDayAccountValue = 0;
-                    if(account.Values.Any(v => v.CreateDate <= runningDate)) {
-                        currentDayAccountValue = account.Values.Where(av => av.Active && av.CreateDate == account.Values.Where(v => v.CreateDate <= runningDate).Max(v => v.CreateDate)).First().Value;
+                    if(account.Values.Any(v => v.CreateDate.Date <= runningDate)) {
+                        currentDayAccountValue = account.Values.Where(av => av.Active && av.CreateDate == account.Values.Where(v => v.CreateDate.Date <= runningDate).Max(v => v.CreateDate)).First().Value;
                     }
                     dailyRunningAccountTotal += currentDayAccountValue;
                 }
