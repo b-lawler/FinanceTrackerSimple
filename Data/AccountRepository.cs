@@ -110,8 +110,8 @@ namespace FinanceTrackerSimple.Data {
                 decimal dailyRunningAccountTotal = 0;
                 foreach(Account account in activeAccounts) {
                     decimal currentDayAccountValue = 0;
-                    if(account.Values.Any(v => v.CreateDate.Date <= runningDate)) {
-                        currentDayAccountValue = account.Values.Where(av => av.Active && av.CreateDate == account.Values.Where(v => v.CreateDate.Date <= runningDate).Max(v => v.CreateDate)).First().Value;
+                    if(account.Values.Any(v => v.Active && v.CreateDate.Date <= runningDate)) {
+                        currentDayAccountValue = account.Values.Where(av => av.Active && av.CreateDate == account.Values.Where(v => v.Active && v.CreateDate.Date <= runningDate).Max(v => v.CreateDate)).First().Value;
                     }
                     dailyRunningAccountTotal += currentDayAccountValue;
                 }

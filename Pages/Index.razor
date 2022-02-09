@@ -49,6 +49,28 @@
                     </td>
                 </tr>
             }
+
+            @if(Accounts.Any(a => a.Hidden) && !ShowHiddenAccounts) {
+                <tr>
+                    <td colspan="2" class="text-center"><button @onclick="() => { ShowHiddenAccounts = true; }" type="button" class="btn btn-link">+ See Hidden Accounts</button></td>
+                </tr>
+            } else {
+                <tr>
+                    <td colspan="2" class="text-center"><button @onclick="() => { ShowHiddenAccounts = false; }" type="button" class="btn btn-link">- Hide Hidden Accounts</button></td>
+                </tr>
+                @foreach(Account account in Accounts.Where(a => a.Values.Count() > 0 && a.Active && a.Hidden)) {
+                    <tr>
+                        <td class="account-name"><a href="/Account/@account.Id">@account.Name</a></td>
+                        <td class="account-value">
+                            <div>
+                                @account.CurrentValue.FormattedValue
+                            </div>
+                            <small class="text-muted date-added">(@account.CurrentValue.CreateDate.ToShortDateString())</small>
+                        </td>
+                    </tr>
+                }
+            }
+
         </tbody>
         <tfoot>
             <tr class="table-info">
@@ -67,6 +89,7 @@
     private LineConfig _config;
     private int historicalDaysCount;
     Dictionary<DateTime, decimal> dailyAccountValues;
+    public bool ShowHiddenAccounts { get; set; }
 
     protected async override Task OnInitializedAsync() {
         historicalDaysCount = 45;
