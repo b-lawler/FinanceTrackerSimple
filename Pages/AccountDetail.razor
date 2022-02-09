@@ -19,17 +19,17 @@
         <div id="editAccountForm">
             <EditForm Model="CurrentAccount" OnValidSubmit="SaveDetails">
                 <div class="row form-group">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <span>Name: </span><InputText class="form-control" @bind-Value="@CurrentAccount.Name" />
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <span>Link: </span><InputText class="form-control" @bind-Value="@CurrentAccount.Link" />
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <span>Username: </span><InputText class="form-control" @bind-Value="@CurrentAccount.UserName" />
                     </div>
                 </div>
@@ -42,7 +42,8 @@
 
                 @if(ShowMoreAccountOptions) {
                     <div class="row mt-3">
-                        <div class="col-6">
+                        <div class="col-12 col-sm-12 col-md-8">
+                            <hr />
                             <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#hideAccountConfirmModal">
                                 Hide Account
                             </button>
