@@ -54,6 +54,19 @@ namespace FinanceTrackerSimple.Data {
             }
             return false;
         }
+
+        public bool HideAccount(Account account)
+        {
+            Account dbAccount = _dbContext.Accounts.Find(account.Id);
+            if(dbAccount != null)
+            {
+                dbAccount.Hidden = true;
+                _dbContext.Accounts.Update(dbAccount);
+                int rowsAffected = _dbContext.SaveChanges();
+                return rowsAffected > 0;
+            }
+            return false;
+        }
     }
 
     public class AccountValueRepository : IAccountValueRepository {

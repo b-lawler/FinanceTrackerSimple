@@ -38,7 +38,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(Account account in Accounts.Where(a => a.Values.Count > 0 && a.Active)) {
+            @foreach(Account account in Accounts.Where(a => a.Values.Count > 0 && a.Active && !a.Hidden)) {
                 <tr class="@(account.IsRedStale ? "red-stale" : account.IsYellowStale ? "yellow-stale" : "")">
                     <td class="account-name"><a href="/Account/@account.Id">@account.Name</a></td>
                     <td class="account-value @(account.CurrentValue.Value > 0 ? "positive-value" : "negative-value" )">

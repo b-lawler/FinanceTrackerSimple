@@ -10,6 +10,7 @@ namespace FinanceTrackerSimple.Data.IRepositories {
         public Task<bool> InsertAccount(Account account);
         public Task<Account> UpdateAccount(Account account);
         public bool DeleteAccount(Account account);
+        public bool HideAccount(Account account);
     }
 
     public interface IAccountValueRepository {

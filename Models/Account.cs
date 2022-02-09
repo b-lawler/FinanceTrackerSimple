@@ -8,6 +8,7 @@ namespace FinanceTrackerSimple.Data {
     public class Account : Base {
         public string Name { get; set; }
         public string Link { get; set; }
+        public bool Hidden { get; set; }
         public AccountValue CurrentValue {
             get {
                 if(Values.Any(v => v.Active)) {
@@ -33,13 +34,9 @@ namespace FinanceTrackerSimple.Data {
         // If account has not been updated after X number of days, return true
         public bool IsYellowStale {
             get {
-                int daysSpan = 6;
+                int daysSpan = 5;
                 TimeSpan spanDifference = DateTime.UtcNow.Subtract(LastUpdated);
-                if(spanDifference.TotalDays >= daysSpan) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return spanDifference.TotalDays >= daysSpan;
             }
         }
 
@@ -48,11 +45,7 @@ namespace FinanceTrackerSimple.Data {
             get {
                 int daysSpan = 10;
                 TimeSpan spanDifference = DateTime.UtcNow.Subtract(LastUpdated);
-                if(spanDifference.TotalDays >= daysSpan) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return spanDifference.TotalDays >= daysSpan;
             }
         }
 
