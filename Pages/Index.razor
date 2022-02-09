@@ -52,8 +52,7 @@
         </tbody>
         <tfoot>
             <tr class="table-info">
-                <td>Total</td>
-                <td>@Accounts.Where(a => a.Active).Sum(a => a.CurrentValue.Value).ToString("C")</td>
+                <td colspan="2">@Accounts.Where(a => a.Active).Sum(a => a.CurrentValue.Value).ToString("C")</td>
             </tr>
         </tfoot>
     </table>

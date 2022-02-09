@@ -73,7 +73,7 @@
     } else {
         <div class="row">
             <div class="col-sm">
-                <a class="text-muted" target="_blank" href="@CurrentAccount.Link">@CurrentAccount.Link</a>
+                <a class="text-muted" href="@CurrentAccount.Link">@CurrentAccount.Link</a>
                 <div>
                     @if(!string.IsNullOrEmpty(CurrentAccount.UserName)) {
                         <span class="text-muted">Username: @CurrentAccount.UserName</span>
@@ -151,9 +151,7 @@
                 </div>
             </div>
         </div>
-
     }
-
 }
 
 @code {
