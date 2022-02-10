@@ -17,6 +17,6 @@ namespace FinanceTrackerSimple.Data.IRepositories {
         public Task<bool> InsertAccountValue(AccountValue accountValue);
         public Task<List<AccountValue>> GetAccountValues(int accountId);
         public bool DeleteAccountValue(AccountValue accountValue);
-        public Dictionary<DateTime, decimal> GetHistoricalAccountValueSummary(int days);
+        public Dictionary<DateTime, decimal> GetHistoricalAccountValueSummaryForUser(int days, List<Account> activeAccounts);
     }
 }

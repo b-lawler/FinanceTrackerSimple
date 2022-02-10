@@ -104,11 +104,10 @@ namespace FinanceTrackerSimple.Data {
             return false;
         }
 
-        public Dictionary<DateTime, decimal> GetHistoricalAccountValueSummary(int days) {
+        public Dictionary<DateTime, decimal> GetHistoricalAccountValueSummaryForUser(int days, List<Account> activeAccounts) {
             DateTime startDate = DateTime.UtcNow.AddDays(-days).Date;
             Dictionary<DateTime, decimal> dailyAccountSummary = new Dictionary<DateTime, decimal>();
 
-            List<Account> activeAccounts = _dbContext.Accounts.Include(a => a.Values).Where(a => a.Active).ToList();
             for(DateTime runningDate = DateTime.UtcNow.Date; runningDate >= startDate; runningDate = runningDate.AddDays(-1).Date) {
                 decimal dailyRunningAccountTotal = 0;
                 foreach(Account account in activeAccounts) {

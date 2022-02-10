@@ -55,9 +55,11 @@
                 <tr>
                     <td colspan="2" class="text-center"><button @onclick="() => { ShowHiddenAccounts = true; }" type="button" class="btn btn-link">+ See Hidden Accounts</button></td>
                 </tr>
-            } else {
+            } else if(Accounts.Any(a => a.Hidden) && ShowHiddenAccounts) {
                 <tr>
-                    <td colspan="2" class="text-center"><button @onclick="() => { ShowHiddenAccounts = false; }" type="button" class="btn btn-link">- Hide Hidden Accounts</button></td>
+                    <td colspan="2" class="text-center">
+                        <button @onclick="() => { ShowHiddenAccounts = false; }" type="button" class="btn btn-link">- Hide Hidden Accounts</button>
+                    </td>
                 </tr>
                 @foreach(Account account in Accounts.Where(a => a.Values.Count() > 0 && a.Active && a.Hidden)) {
                     <tr>
@@ -174,7 +176,7 @@
     }
 
     private void LoadAccountSummary() {
-        dailyAccountValues = accountValueRepository.GetHistoricalAccountValueSummary(historicalDaysCount);
+        dailyAccountValues = accountValueRepository.GetHistoricalAccountValueSummaryForUser(historicalDaysCount, Accounts);
         dailyAccountValues = dailyAccountValues.Reverse().ToDictionary(x => x.Key, y => y.Value);
     }
 
