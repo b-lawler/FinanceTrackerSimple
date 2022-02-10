@@ -12,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using FinanceTrackerSimple.Data;
 using FinanceTrackerSimple.Data.IRepositories;
 using System;
 using System.Collections.Generic;

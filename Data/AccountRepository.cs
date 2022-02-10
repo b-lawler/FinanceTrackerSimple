@@ -21,8 +21,11 @@ namespace FinanceTrackerSimple.Data {
             return affectedRows > 0;
         }
 
-        public async Task<List<Account>> GetActiveAccounts() {
-            return await _dbContext.Accounts.Include(a => a.Values).Where(a => a.Active).ToListAsync();
+        public async Task<List<Account>> GetActiveAccountsForUser(string userId) {
+            
+            return await _dbContext.Accounts.Include(a => a.Values)
+                                            .Where(a => a.Active && a.UserId == userId)
+                                            .ToListAsync();
         }
 
         public async Task<Account> GetAccount(int id) {

@@ -1,14 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace FinanceTrackerSimple.Data {
     public class Account : Base {
+        [Required]
+        public string UserId { get; set; }
+        [Required]
         public string Name { get; set; }
         public string Link { get; set; }
+        public string UserName { get; set; }
         public bool Hidden { get; set; }
+        public List<AccountValue> Values { get; set; }
+        public Account() {
+            Values = new List<AccountValue>();
+            CreateDate = DateTime.UtcNow;
+        }
+
         public AccountValue CurrentValue {
             get {
                 if(Values.Any(v => v.Active)) {
@@ -20,7 +31,6 @@ namespace FinanceTrackerSimple.Data {
                 }
             }
         }
-        public List<AccountValue> Values { get; set; }
         public DateTime LastUpdated {
             get {
                 if(CurrentValue != null) {
@@ -29,7 +39,6 @@ namespace FinanceTrackerSimple.Data {
                 return DateTime.MinValue;
             }
         }
-        public string UserName { get; set; }
 
         // If account has not been updated after X number of days, return true
         public bool IsYellowStale {
@@ -48,11 +57,5 @@ namespace FinanceTrackerSimple.Data {
                 return spanDifference.TotalDays >= daysSpan;
             }
         }
-
-        public Account() {
-            Values = new List<AccountValue>();
-            CreateDate = DateTime.UtcNow;
-        }
-
     }
 }

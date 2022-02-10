@@ -1,6 +1,7 @@
 ﻿@page "/AddAccount"
 @using FinanceTrackerSimple.Data
 @using FinanceTrackerSimple.Data.IRepositories
+@using System.Security.Claims
 @inject IAccountRepository accountService
 @inject IAccountValueRepository accountValueService
 @inject NavigationManager navigationManager
@@ -35,12 +36,22 @@
 </div>
 
 @code{
+    [CascadingParameter]
+    private Task<AuthenticationState> authStateTask { get; set; }
 
     Account newAccount = new Account();
     AccountValue newAccountValue = new AccountValue();
 
     String currentValue = string.Empty;
     bool loading = false;
+    public string UserId { get; set; }
+
+    protected async override Task OnInitializedAsync() {
+        var authState = await authStateTask;
+        var user = authState.User;
+        UserId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        newAccount.UserId = UserId;
+    }
 
     public async Task AddNewAccount() {
         if(!newAccount.Link.Contains("https:") && !newAccount.Link.Contains("http:")) {
