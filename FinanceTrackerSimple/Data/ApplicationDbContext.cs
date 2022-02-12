@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FinanceTrackerSimple.Data {
+namespace SimpleFinanceTracker.Web.Data {
     public class ApplicationDbContext : IdentityDbContext {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) {

@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FinanceTrackerSimple.Areas.Identity {
+namespace SimpleFinanceTracker.Web.Areas.Identity {
     public class RevalidatingIdentityAuthenticationStateProvider<TUser>
         : RevalidatingServerAuthenticationStateProvider where TUser : class {
         private readonly IServiceScopeFactory _scopeFactory;

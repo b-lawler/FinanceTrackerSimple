@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "FinanceTrackerSimple": {
+    "SimpleFinanceTracker.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

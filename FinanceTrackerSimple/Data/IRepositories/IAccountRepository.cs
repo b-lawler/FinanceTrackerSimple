@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FinanceTrackerSimple.Data.IRepositories {
+namespace SimpleFinanceTracker.Web.Data.IRepositories {
     public interface IAccountRepository {
         public Task<Account> GetAccount(int id);
         public Task<List<Account>> GetActiveAccountsForUser(string userId);

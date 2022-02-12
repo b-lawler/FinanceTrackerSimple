@@ -1,5 +1,5 @@
-using FinanceTrackerSimple.Areas.Identity;
-using FinanceTrackerSimple.Data;
+using SimpleFinanceTracker.Web.Areas.Identity;
+using SimpleFinanceTracker.Web.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using FinanceTrackerSimple.Data.IRepositories;
+using SimpleFinanceTracker.Web.Data.IRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace FinanceTrackerSimple {
+namespace SimpleFinanceTracker.Web {
     public class Startup {
         public Startup(IConfiguration configuration) {
             Configuration = configuration;

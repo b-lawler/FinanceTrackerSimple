@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["FinanceTrackerSimple.csproj", "."]
-RUN dotnet restore "./FinanceTrackerSimple.csproj"
+COPY ["SimpleFinanceTracker.Web.csproj", "."]
+RUN dotnet restore "./SimpleFinanceTracker.Web.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "FinanceTrackerSimple.csproj" -c Release -o /app/build
+RUN dotnet build "SimpleFinanceTracker.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "FinanceTrackerSimple.csproj" -c Release -o /app/publish
+RUN dotnet publish "SimpleFinanceTracker.Web.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "FinanceTrackerSimple.dll"]
+ENTRYPOINT ["dotnet", "SimpleFinanceTracker.Web.dll"]

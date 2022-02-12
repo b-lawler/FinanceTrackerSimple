@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FinanceTrackerSimple.Data.Migrations
+namespace SimpleFinanceTracker.Web.Data.Migrations
 {
     public partial class AddActiveFlagToBaseModel : Migration
     {

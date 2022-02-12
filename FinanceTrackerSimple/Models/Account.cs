@@ -5,10 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FinanceTrackerSimple.Data {
+namespace SimpleFinanceTracker.Web.Data {
     public class Account : Base {
         [Required]
-        public string UserId { get; }
+        public string UserId { get; set; }
         [Required]
         public string Name { get; set; }
         public string Link { get; set; }

@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using FinanceTrackerSimple.Data.IRepositories;
+using SimpleFinanceTracker.Web.Data.IRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace FinanceTrackerSimple.Data {
+namespace SimpleFinanceTracker.Web.Data {
     public class AccountRepository : IAccountRepository {
         private readonly ApplicationDbContext _dbContext;
 

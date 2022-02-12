@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FinanceTrackerSimple.Data {
+namespace SimpleFinanceTracker.Web.Data {
     public class AccountValue : Base {
         public int AccountId { get; set; }
         public virtual Account Account { get; set; }

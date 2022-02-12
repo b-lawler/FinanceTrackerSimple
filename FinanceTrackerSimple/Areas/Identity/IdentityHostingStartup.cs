@@ -1,5 +1,5 @@
 ﻿using System;
-using FinanceTrackerSimple.Data;
+using SimpleFinanceTracker.Web.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-[assembly: HostingStartup(typeof(FinanceTrackerSimple.Areas.Identity.IdentityHostingStartup))]
-namespace FinanceTrackerSimple.Areas.Identity
+[assembly: HostingStartup(typeof(SimpleFinanceTracker.Web.Areas.Identity.IdentityHostingStartup))]
+namespace SimpleFinanceTracker.Web.Areas.Identity
 {
     public class IdentityHostingStartup : IHostingStartup
     {
