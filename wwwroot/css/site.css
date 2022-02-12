@@ -2,6 +2,10 @@ html, body {
     font-family: 'Roboto', sans-serif;
 }
 
+.container{
+    max-width: 100%;
+}
+
 a, .btn-link {
     color: #0366d6;
 }

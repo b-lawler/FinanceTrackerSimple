@@ -3,6 +3,10 @@
     text-align:center;
 }
 
+th{
+    border-top:none;
+}
+
 .account-name{
     font-size: 1.15em;
     padding: 1em;
@@ -10,6 +14,10 @@
 
 .account-value{
     font-size:1em;
+}
+
+.custom-select{
+    margin:0 auto;
 }
 
 .date-added{

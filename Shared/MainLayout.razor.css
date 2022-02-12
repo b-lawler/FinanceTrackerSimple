@@ -31,7 +31,7 @@
         text-overflow: ellipsis;
     }
 
-@media (max-width: 640.98px) {
+@media (max-width: 810.98px) {
     .top-row:not(.auth) {
         display: none;
     }
@@ -45,7 +45,7 @@
     }
 }
 
-@media (min-width: 641px) {
+@media (min-width: 811px) {
     .page {
         flex-direction: row;
     }
@@ -69,7 +69,7 @@
     }
 }
 
-@media(max-width:640px) {
+@media(max-width:810px) {
     .top-row {
         display: none !important;
     }
