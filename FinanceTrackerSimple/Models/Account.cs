@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 namespace FinanceTrackerSimple.Data {
     public class Account : Base {
         [Required]
-        public string UserId { get; set; }
+        public string UserId { get; }
         [Required]
         public string Name { get; set; }
         public string Link { get; set; }
         public string UserName { get; set; }
         public bool Hidden { get; set; }
         public List<AccountValue> Values { get; set; }
-        public Account() {
+        public Account(string userId) {
             Values = new List<AccountValue>();
             CreateDate = DateTime.UtcNow;
+            UserId = UserId;
         }
 
         public AccountValue CurrentValue {

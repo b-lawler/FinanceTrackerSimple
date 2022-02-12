@@ -39,18 +39,17 @@
     [CascadingParameter]
     private Task<AuthenticationState> authStateTask { get; set; }
 
-    Account newAccount = new Account();
+    Account newAccount = null;
     AccountValue newAccountValue = new AccountValue();
 
     String currentValue = string.Empty;
     bool loading = false;
-    public string UserId { get; set; }
 
     protected async override Task OnInitializedAsync() {
         var authState = await authStateTask;
         var user = authState.User;
-        UserId = user.FindFirstValue(ClaimTypes.NameIdentifier);
-        newAccount.UserId = UserId;
+        string userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        newAccount = new Account(userId);
     }
 
     public async Task AddNewAccount() {
