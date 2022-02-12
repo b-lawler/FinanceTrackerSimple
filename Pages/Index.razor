@@ -12,10 +12,10 @@
 
 @if(Accounts != null) {
 
-    <div class="row">
-        <div class="col mt-2">
+    <div class="row align-items-start">
+        <div class="col mt-2 sft-card">
             <div class="row justify-content-center">
-                <h2>Historical Value</h2>
+                <h3>Historical Value</h3>
             </div>
             <div class="row">
                 <Chart Config="_config"></Chart>
@@ -30,16 +30,13 @@
                 </div>
             </div>
         </div>
-        <div class="col mt-5 mt-md-2">
-            <div class="row justify-content-end">
-                <div class="col-4 text-center">
-                    <h2>Accounts</h2>
+        <div class="col mt-4 mt-md-2 sft-card">
+            <div class="row justify-content-center">
+                <div class="text-center">
+                    <h3>Accounts</h3>
                 </div>
-                <div class="col-4 d-flex align-items-center justify-content-end">
-                    <div>
-                        <a href="AddAccount" class="btn btn-info btn-sm">Add Account</a>
-                    </div>
-                </div>
+
+                <a id="addAccount" href="AddAccount" class="btn btn-info btn-sm">+ New</a>
             </div>
             <table class="table table-striped mb-5">
                 <thead>
