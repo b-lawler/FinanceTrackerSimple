@@ -1,0 +1,12 @@
+﻿#accountName{
+    margin-bottom:0;
+    display:inline;
+}
+
+#editAccountBtn{
+    position: absolute;
+}
+
+#editAccountForm{
+    margin-top:25px;
+}

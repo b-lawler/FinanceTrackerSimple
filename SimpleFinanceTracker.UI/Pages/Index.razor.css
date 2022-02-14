@@ -1,0 +1,47 @@
+﻿tfoot tr {
+    font-size: 1.3em;
+    text-align:center;
+}
+
+h1{
+    color: rgba(0,0,0,0.5)
+}
+
+h3{
+    color:rgba(0,0,0,0.6)
+}
+
+th{
+    border-top:none;
+}
+
+#addAccount {
+    position: absolute;
+    right: 15px;
+}
+
+.account-name{
+    font-size: 1.15em;
+    padding: 1em;
+}
+
+.account-value{
+    font-size:1em;
+}
+
+.custom-select{
+    margin:0 auto;
+}
+
+.date-added{
+    position:absolute;
+    margin-top: -3px;
+}
+
+.yellow-stale {
+    background-color: rgb(255, 241, 217) !important;
+}
+
+.red-stale {
+    background-color: rgb(255, 224, 224) !important;
+}
