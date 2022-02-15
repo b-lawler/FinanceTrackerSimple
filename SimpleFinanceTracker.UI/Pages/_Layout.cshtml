@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Components.Web
-@namespace SampleBlazorIndividualUserAuth.Pages
+@namespace SimpleFinanceTracker.UI.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <!DOCTYPE html>
@@ -10,8 +10,8 @@
     <base href="~/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
-    <link href="SampleBlazorIndividualUserAuth.styles.css" rel="stylesheet" />
-    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    <link href="SimpleFinanceTracker.UI.styles.css" rel="stylesheet" />
+    <component type="typeof(HeadOutlet)" render-mode="Server" />
 </head>
 <body>
     @RenderBody()

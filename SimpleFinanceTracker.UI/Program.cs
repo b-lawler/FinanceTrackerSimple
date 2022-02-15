@@ -36,11 +36,24 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IAccountValueRepository, AccountValueRepository>();
 
 builder.Services.Configure<IdentityOptions>(options => {
+    // Password options
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 5;
     options.Password.RequireLowercase = true;
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = false;
+
+    // User options
+    options.User.RequireUniqueEmail = true;
+});
+
+builder.Services.ConfigureApplicationCookie(options => {
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromDays(2);
+    options.SlidingExpiration = true;
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.SlidingExpiration = true;
 });
 
 

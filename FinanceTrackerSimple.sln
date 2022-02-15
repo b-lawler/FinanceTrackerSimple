@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFinanceTracker.Web", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFinanceTracker.UI", "SimpleFinanceTracker.UI\SimpleFinanceTracker.UI.csproj", "{D4FA0AF7-5EA5-4D4F-AD0B-C17A7A56E5D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleFinanceTracker.Core", "SimpleFinanceTracker.Core\SimpleFinanceTracker.Core.csproj", "{0CC5959A-94B8-4124-9604-437F12DA1F10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFinanceTracker.Core", "SimpleFinanceTracker.Core\SimpleFinanceTracker.Core.csproj", "{0CC5959A-94B8-4124-9604-437F12DA1F10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,9 @@
+﻿@inject NavigationManager navManager
+@attribute [AllowAnonymous]
+
+@code {
+    protected override void OnInitialized() {
+        //navManager.NavigateTo("Identity/Account/Login");
+        navManager.NavigateTo("Identity/Account/Login", true);
+    }
+}

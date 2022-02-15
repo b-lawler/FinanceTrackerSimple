@@ -17,6 +17,9 @@
   <ItemGroup>
     <None Include="Areas\Identity\Pages\Account\LogOut.cshtml" />
     <None Include="Areas\Identity\Pages\Shared\_LoginPartial.cshtml" />
+    <None Include="Pages\Shared\_Layout.cshtml" />
+    <None Include="Pages\Shared\_LoginPartial.cshtml" />
+    <None Include="Pages\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="wwwroot\css\open-iconic\FONT-LICENSE" />
     <None Include="wwwroot\css\open-iconic\font\fonts\open-iconic.svg" />
     <None Include="wwwroot\css\open-iconic\ICON-LICENSE" />
