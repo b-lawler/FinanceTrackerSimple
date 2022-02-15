@@ -11,45 +11,26 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using SimpleFinanceTracker.Core.Data;
 using SimpleFinanceTracker.Core.Data.IRepositories;
+using SimpleFinanceTracker.UI.Areas.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddControllersWithViews()
-    .AddMicrosoftIdentityUI();
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddAuthorization(options => {
-    // By default, all incoming requests will be authorized according to the default policy
-    options.FallbackPolicy = options.DefaultPolicy;
-});
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor()
-    .AddMicrosoftIdentityConsentHandler();
+
+builder.Services.AddServerSideBlazor();
+
+builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 
 builder.Services.AddLocalization();
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    builder.Configuration.GetConnectionString("DefaultConnection")));
-
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-
-
-
-
-//builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-
-//services.AddAuthorization(options => {
-//    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-//        .RequireAuthenticatedUser()
-//        .Build();
-//});
 
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IAccountValueRepository, AccountValueRepository>();
@@ -67,7 +48,9 @@ builder.Services.Configure<IdentityOptions>(options => {
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if(!app.Environment.IsDevelopment()) {
+if(app.Environment.IsDevelopment()) {
+    app.UseMigrationsEndPoint();
+} else {
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();

@@ -1,4 +1,4 @@
-﻿namespace SimpleFinanceTracker.UI.Pages.Shared {
+﻿namespace SimpleFinanceTracker.UI.Shared {
     public static class IListExtensions {
         public static void AddRange<T>(this IList<T> list, IEnumerable<T> items) {
             if(list == null)
