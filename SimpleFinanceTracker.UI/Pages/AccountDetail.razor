@@ -1,120 +1,155 @@
 ﻿@page "/Account/{AccountId:int}"
+@using ChartJs.Blazor
+@using ChartJs.Blazor.Common
+@using ChartJs.Blazor.Common.Axes
+@using ChartJs.Blazor.Common.Enums
+@using ChartJs.Blazor.LineChart
+@using ChartJs.Blazor.Util
 @using SimpleFinanceTracker.Core.Data.IRepositories
 @using SimpleFinanceTracker.Core.Models
+@using System.Drawing
 @inject IAccountRepository accountRepository
 @inject IAccountValueRepository accountValueRepository
 @inject NavigationManager navigationManager
 
 @if(CurrentAccount != null) {
     <div class="row">
-        <div class="col-12">
-            <h3 id="accountName" class="text-info">@(EditMode ? "Update" : "") @CurrentAccount.Name</h3>
-            @if(!EditMode) {
-                <button id="editAccountBtn" @onclick="EditClick" class="btn btn-sm btn-secondary mx-3">Edit</button>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="d-flex flex-column align-items-center mb-3">
+                <div>
+                    <h3 id="accountName" class="text-info">@(EditMode ? "Update" : "") @CurrentAccount.Name</h3>
+                    @if(!EditMode) {
+                        <button id="editAccountBtn" @onclick="EditClick" class="btn btn-sm btn-secondary ml-2 mb-2">Edit</button>
+                    }
+                </div>
+                @if(!EditMode) {
+                    <div>
+                        <a class="text-muted" href="@CurrentAccount.Link">@CurrentAccount.Link</a>
+                    </div>
+                    <div>
+                        @if(!string.IsNullOrEmpty(CurrentAccount.UserName)) {
+                            <span class="text-muted">Username: @CurrentAccount.UserName</span>
+                        }
+                    </div>
+                }
+            </div>
+
+            @if(EditMode) {
+                <div id="editAccountForm" class="row justify-content-center mb-3">
+                    <div class="col-lg-4 col-md-12">
+                        <EditForm Model="CurrentAccount" OnValidSubmit="SaveDetails">
+                            <div class="row form-group">
+                                <div class="col">
+                                    <span>Name: </span><InputText class="form-control" @bind-Value="@CurrentAccount.Name" />
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col">
+                                    <span>Link: </span><InputText class="form-control" @bind-Value="@CurrentAccount.Link" />
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col">
+                                    <span>Username: </span><InputText class="form-control" @bind-Value="@CurrentAccount.UserName" />
+                                </div>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-12">
+                                    <button class="btn btn-primary">Save Changes</button>
+                                    <button type="button" @onclick="() => { EditMode = false; ShowMoreAccountOptions = false; }" class="btn btn-link">Cancel</button>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                @if(ShowMoreAccountOptions) {
+                                    <div class="row mt-1">
+                                        <div class="col">
+                                            <hr />
+                                            <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#hideAccountConfirmModal">
+                                                Hide Account
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteAccountConfirmModal">
+                                                Delete Account
+                                            </button>
+                                        </div>
+                                    </div>
+                                } else {
+                                    <button type="button" @onclick="() => { ShowMoreAccountOptions = true; }" id="showMoreAccountOptions" class="btn btn-link mt-3">+ More Options</button>
+                                }
+                            </div>
+
+                            <!-- Modal -->
+                    <div class="modal fade" id="hideAccountConfirmModal" tabindex="-1" role="dialog" aria-labelledby="hideAccountModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="hideAccountModalLabel">Confirm</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you wish to hide account @CurrentAccount.Name?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                            <button type="button" @onclick="HideAccount" data-dismiss="modal" class="btn btn-danger">Confirm Hide</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal -->
+                    <div class="modal fade" id="deleteAccountConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteAccountModalLabel">Confirm</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you wish to delete account @CurrentAccount.Name?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                            <button type="button" @onclick="DeleteAccount" data-dismiss="modal" class="btn btn-danger">Confirm Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </EditForm>
+                    </div>
+                </div>
             }
         </div>
     </div>
 
-    @if(EditMode) {
-        <div id="editAccountForm">
-            <EditForm Model="CurrentAccount" OnValidSubmit="SaveDetails">
-                <div class="row form-group">
-                    <div class="col-md-8">
-                        <span>Name: </span><InputText class="form-control" @bind-Value="@CurrentAccount.Name" />
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-8">
-                        <span>Link: </span><InputText class="form-control" @bind-Value="@CurrentAccount.Link" />
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-8">
-                        <span>Username: </span><InputText class="form-control" @bind-Value="@CurrentAccount.UserName" />
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-12">
-                        <button class="btn btn-primary">Save Changes</button>
-                        <button @onclick="() => { EditMode = false; ShowMoreAccountOptions = false; }" class="btn btn-link">Cancel</button>
-                    </div>
-                </div>
 
-                @if(ShowMoreAccountOptions) {
-                    <div class="row mt-3">
-                        <div class="col-12 col-sm-12 col-md-8">
-                            <hr />
-                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#hideAccountConfirmModal">
-                                Hide Account
-                            </button>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAccountConfirmModal">
-                                Delete Account
-                            </button>
-                        </div>
-                    </div>
-                } else {
-                    <button type="button" @onclick="() => { ShowMoreAccountOptions = true; }" id="showMoreAccountOptions" class="btn btn-link mt-3">+ More Options</button>
-                }
+    <div class="row align-items-start">
 
-                <!-- Modal -->
-                <div class="modal fade" id="hideAccountConfirmModal" tabindex="-1" role="dialog" aria-labelledby="hideAccountModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="hideAccountModalLabel">Confirm</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Are you sure you wish to hide account @CurrentAccount.Name?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                                <button type="button" @onclick="HideAccount" data-dismiss="modal" class="btn btn-danger">Confirm Hide</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal -->
-                <div class="modal fade" id="deleteAccountConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteAccountModalLabel">Confirm</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Are you sure you wish to delete account @CurrentAccount.Name?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                                <button type="button" @onclick="DeleteAccount" data-dismiss="modal" class="btn btn-danger">Confirm Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </EditForm>
-        </div>
-    } else {
-        <div class="row">
-            <div class="col-sm">
-                <a class="text-muted" href="@CurrentAccount.Link">@CurrentAccount.Link</a>
-                <div>
-                    @if(!string.IsNullOrEmpty(CurrentAccount.UserName)) {
-                        <span class="text-muted">Username: @CurrentAccount.UserName</span>
-                    }
+        <div class="col mt-2 sft-card">
+            <div class="row justify-content-center">
+                <h3>Historical Value</h3>
+                <Chart Config="_config"></Chart>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-2">
+                    <select class="custom-select" @onchange="ChangeDateRange">
+                        <option value="15">15 Days</option>
+                        <option selected value="45">45 Days</option>
+                        <option value="90">90 Days</option>
+                    </select>
                 </div>
             </div>
         </div>
-        <div class="mt-5">
+
+        <div class="col mt-4 mt-md-2 sft-card">
             <div class="row">
                 <div class="col-7">
-                    <h5>Historical Values</h5>
+                    <h5>Account Values</h5>
                 </div>
                 @if(!AddingValue) {
                     <div class="col-5">
@@ -126,7 +161,7 @@
                 <EditForm Model="@NewAccountValue" OnValidSubmit="@AddAccountValue">
                     <div class="row">
                         <div class="mb-3 col-sm-6">
-                            <label for="accountValue">Account Value</label>
+                            <label for="accountValue">New Value:</label>
                             <InputNumber id="accountValue" class="form-control" @bind-Value="NewAccountValue.Value"></InputNumber>
                         </div>
                     </div>
@@ -181,7 +216,7 @@
                 </div>
             </div>
         </div>
-    }
+    </div>
 }
 
 @code {
@@ -193,12 +228,86 @@
     public bool ShowMoreAccountOptions { get; set; } = false;
     public AccountValue NewAccountValue { get; set; } = new AccountValue();
     public AccountValue AccountValueToDelete { get; set; }
+    public LineConfig _config { get; set; }
+    Dictionary<DateTime, decimal> dailyAccountValues;
+    private int historicalDaysCount;
 
     protected async override Task OnInitializedAsync() {
         CurrentAccount = await accountRepository.GetAccount(AccountId);
         NewAccountValue.AccountId = CurrentAccount.Id;
         NewAccountValue.Value = CurrentAccount.CurrentValue != null ? CurrentAccount.CurrentValue.Value : 0;
+        historicalDaysCount = 45;
+
+        _config = new LineConfig {
+                Options = new LineOptions {
+                    Legend = new Legend {
+                        Display = false
+                    },
+                    Responsive = true,
+                    Title = new OptionsTitle {
+                        Display = false
+                    },
+                    Tooltips = new Tooltips {
+                        Mode = InteractionMode.Nearest,
+                        Intersect = true
+                    },
+                    Hover = new Hover {
+                        Mode = InteractionMode.Nearest,
+                        Intersect = false,
+                    },
+                    Scales = new Scales {
+                        XAxes = new List<CartesianAxis>{
+                        new CategoryAxis{
+                            ScaleLabel = new ScaleLabel{
+                                LabelString = "Month"
+                            }
+                        }
+                    },
+                        YAxes = new List<CartesianAxis>{
+                        new LinearCartesianAxis{
+                            ScaleLabel = new ScaleLabel{
+                                LabelString = "Value"
+                            }
+                        }
+                    }
+                    }
+                }
+            };
+
+        UpdateGraph();
     }
+
+    private void UpdateGraph() {
+        LoadAccountSummary();
+
+        IDataset<decimal> dataset = new LineDataset<decimal>(dailyAccountValues.Select(v => v.Value).ToArray()) {
+                Label = null,
+                BackgroundColor = ColorUtil.FromDrawingColor(Color.FromArgb(150, 84, 153, 214)),
+                BorderColor = ColorUtil.FromDrawingColor(Color.FromArgb(150, 84, 153, 214)),
+                Fill = FillingMode.Origin,
+                HoverBackgroundColor = ColorUtil.FromDrawingColor(Color.FromArgb(200, 84, 153, 214)),
+                PointHoverRadius = 30
+            };
+        _config.Data.Datasets.Clear();
+        _config.Data.Labels.Clear();
+
+        _config.Data.Labels.AddRange(dailyAccountValues.Select(v => v.Key.ToShortDateString()).ToArray());
+        _config.Data.Datasets.Add(dataset);
+        StateHasChanged();
+    }
+
+    private void LoadAccountSummary() {
+        dailyAccountValues = accountValueRepository.GetHistoricalAccountValueSummaryForUser(historicalDaysCount, new List<Account> { CurrentAccount });
+        dailyAccountValues = dailyAccountValues.Reverse().ToDictionary(x => x.Key, y => y.Value);
+    }
+
+    private void ChangeDateRange(ChangeEventArgs e) {
+        int selectedDateRange = int.Parse(e.Value.ToString());
+        historicalDaysCount = selectedDateRange;
+
+        UpdateGraph();
+    }
+
 
     private void EditClick() {
         EditMode = true;
@@ -236,7 +345,7 @@
 
     private void HideAccount() {
         bool success = accountRepository.HideAccount(CurrentAccount);
-        if (success){
+        if(success) {
             navigationManager.NavigateTo("/");
         }
     }

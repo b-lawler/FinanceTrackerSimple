@@ -5,8 +5,9 @@
 
 #editAccountBtn{
     position: absolute;
+    top: 3px;
 }
 
-#editAccountForm{
+/*#editAccountForm{
     margin-top:25px;
-}
+}*/
