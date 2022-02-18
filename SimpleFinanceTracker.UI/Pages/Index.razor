@@ -13,6 +13,7 @@
 @using SimpleFinanceTracker.Core.Models
 @using System.Drawing
 @using System.Linq
+@using System;
 @using SimpleFinanceTracker.UI.Pages
 
 
@@ -58,7 +59,7 @@
                             <td class="account-name"><a href="/Account/@account.Id">@account.Name</a></td>
                             <td class="account-value @(account.CurrentValue.Value > 0 ? "positive-value" : "negative-value" )">
                                 <div>
-                                    @account.CurrentValue.FormattedValue
+                                    @account.CurrentValue.Value.ToString("C")
                                 </div>
                                 <small class="text-muted date-added">(@account.CurrentValue.CreateDate.ToShortDateString())</small>
                             </td>

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFinanceTracker.UI", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFinanceTracker.Core", "SimpleFinanceTracker.Core\SimpleFinanceTracker.Core.csproj", "{0CC5959A-94B8-4124-9604-437F12DA1F10}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleFinanceTracker.Tests", "SimpleFinanceTracker.Tests\SimpleFinanceTracker.Tests.csproj", "{4713DADC-55D7-4CCC-9654-BCE33613B373}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0CC5959A-94B8-4124-9604-437F12DA1F10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CC5959A-94B8-4124-9604-437F12DA1F10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CC5959A-94B8-4124-9604-437F12DA1F10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4713DADC-55D7-4CCC-9654-BCE33613B373}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4713DADC-55D7-4CCC-9654-BCE33613B373}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4713DADC-55D7-4CCC-9654-BCE33613B373}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4713DADC-55D7-4CCC-9654-BCE33613B373}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

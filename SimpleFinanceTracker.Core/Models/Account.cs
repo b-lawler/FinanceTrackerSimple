@@ -18,7 +18,7 @@ namespace SimpleFinanceTracker.Core.Models {
         public Account(string userId) {
             Values = new List<AccountValue>();
             CreateDate = DateTime.UtcNow;
-            UserId = UserId;
+            UserId = userId;
         }
 
         public AccountValue CurrentValue {
